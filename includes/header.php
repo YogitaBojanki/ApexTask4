@@ -2,7 +2,7 @@
 <html>
 <head>
     <title>Food Ordering System</title>
-    <link rel="stylesheet" href="/food-ordering-system/assets/css/style.css">
+    <link rel="stylesheet" href="/APEXTASK4/assets/css/style.css">
 </head>
 <body>
 

@@ -14,7 +14,7 @@ while($row = $res->fetch_assoc()){
 <div class="col-md-4">
 <div class="card shadow p-3 mb-3">
 
-<img src="../uploads/<?php echo $row['image']; ?>" height="150" class="mb-2">
+<img src="../uploads/<?php echo $row['image'] ?? 'default.png'; ?>" height="150">
 
 <h5><?php echo $row['name']; ?></h5>
 <p class="text-success">₹<?php echo $row['price']; ?></p>
