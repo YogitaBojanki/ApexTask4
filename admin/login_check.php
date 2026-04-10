@@ -4,7 +4,7 @@ if(session_status() === PHP_SESSION_NONE){
 }
 
 if(!isset($_SESSION['user']) || $_SESSION['user']['role'] != 'admin'){
-    header('Location: ../login.php');
+    header('location:/ApexTask4/login.php');
     exit();
 }
 ?>

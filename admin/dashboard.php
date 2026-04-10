@@ -1,6 +1,7 @@
 <?php 
 include("login_check.php");
-include("../includes/header.php"); 
+include("../includes/header.php");
+session_start();
 ?>
 
 <div class="card">

@@ -17,8 +17,10 @@ CREATE TABLE foods (
 
 CREATE TABLE orders (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    user_id INT,
-    food_id INT,
-    quantity INT,
-    status VARCHAR(50) DEFAULT 'Pending'
+    user_id INT NOT NULL,
+    total_amount DECIMAL(10,2) NOT NULL,
+    address TEXT NOT NULL,
+    payment_method VARCHAR(50) DEFAULT 'COD',
+    order_status VARCHAR(50) DEFAULT 'Pending',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );

@@ -1,5 +1,4 @@
-<?php include "config.php"; ?>
-
+<?php include "includes/db.php"; ?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -7,10 +6,13 @@
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 <style>
 body{
-    background: linear-gradient(to right, #36d1dc, #5b86e5);
+    background: linear-gradient(to right, #6b89ff, #283eff);
 }
 .card{
     border-radius: 15px;
+    height:270px;
+    width:760px;
+    padding:25px;
 }
 </style>
 </head>
@@ -31,13 +33,16 @@ if(isset($_POST['login'])){
     $user = $res->fetch_assoc();
 
     if($user && password_verify($password,$user['password'])){
+        $_SESSION['user_id'] = $user['id'];  // ✅ ADD THIS
+        $_SESSION['username'] = $user['name'];
         $_SESSION['user'] = $user;
 
         if($user['role']=="admin"){
             header("Location: admin/dashboard.php");
         } else {
-            header("Location: dashboard.php");
+            header("Location: /ApexTask4/user/menu.php");
         }
+        exit();
     } else {
         echo "<div class='alert alert-danger'>Invalid login</div>";
     }
@@ -53,8 +58,11 @@ if(isset($_POST['login'])){
 <button type="button" class="btn btn-secondary" onclick="togglePass()">👁</button>
 </div>
 
-<button class="btn btn-primary w-100" name="login">Login</button>
-
+<button class="btn btn-success w-100" name="login">Login</button><br>
+<p class="text-center mt-2">
+Don't have an account? 
+<a href="/ApexTask4/register.php">Register</a>
+</p>
 </form>
 
 </div>

@@ -1,63 +1,72 @@
-<?php 
-include "../includes/db.php"; 
+<?php
+include "../includes/db.php";
 include "../includes/header.php"; 
-
-// Check if cart exists
-if(!isset($_SESSION['cart']) || count($_SESSION['cart']) == 0){
-    echo "<div class='card'><h3>Your Cart is Empty 🛒</h3></div>";
-    include "../includes/footer.php";
-    exit();
-}
 ?>
 
-<div class="container mt-4">
-<h3>Your Cart 🛒</h3>
+<div class="container mt-5">
 
-<table class="table table-bordered">
-<tr>
-    <th>Food</th>
-    <th>Price</th>
-    <th>Quantity</th>
-    <th>Total</th>
+<h2 class="mb-4 text-center">🛒 Your Cart</h2>
+
+<table class="table table-bordered text-center align-middle">
+<tr class="table-dark">
+<th>Food</th>
+<th>Price</th>
+<th>Quantity</th>
+<th>Total</th>
+<th>Action</th>
 </tr>
 
 <?php
 $total = 0;
 
-foreach($_SESSION['cart'] as $item){
+if(isset($_SESSION['cart']) && count($_SESSION['cart']) > 0){
 
-    // Get food details safely
-    $stmt = $conn->prepare("SELECT * FROM foods WHERE id=?");
-    $stmt->bind_param("i", $item['food_id']);
-    $stmt->execute();
-    $res = $stmt->get_result();
-    $food = $res->fetch_assoc();
+foreach($_SESSION['cart'] as $food_id => $qty){
 
-    if(!$food) continue; // skip if food not found
+    $food_id = (int)$food_id; // safety
+
+    $food = $conn->query("SELECT * FROM foods WHERE id=$food_id")->fetch_assoc();
+
+    if(!$food) continue;
 
     $price = $food['price'];
-    $qty = $item['qty'];
-    $subtotal = $price * $qty;
+    $subTotal = $price * $qty;
 
-    $total += $subtotal;
+    $total += $subTotal;
 ?>
-
 <tr>
-    <td><?php echo $food['name']; ?></td>
-    <td>₹<?php echo $price; ?></td>
-    <td><?php echo $qty; ?></td>
-    <td>₹<?php echo $subtotal; ?></td>
+<td><?php echo $food['name']; ?></td>
+
+<td>₹<?php echo $price; ?></td>
+
+<td>
+    <a href="update_cart.php?action=decrease&id=<?php echo $food_id; ?>" class="btn btn-sm btn-danger">-</a>
+    <span class="mx-2"><?php echo $qty; ?></span>
+    <a href="update_cart.php?action=increase&id=<?php echo $food_id; ?>" class="btn btn-sm btn-success">+</a>
+</td>
+
+<td>₹<?php echo $subTotal; ?></td>
+
+<td>
+    <a href="update_cart.php?action=remove&id=<?php echo $food_id; ?>" class="btn btn-sm btn-warning">Remove</a>
+</td>
 </tr>
 
+<?php } } else { ?>
+<tr>
+<td colspan="5">Cart is Empty</td>
+</tr>
 <?php } ?>
 
 </table>
 
-<h4>Total Amount: ₹<?php echo $total; ?></h4>
+<h4 class="text-end">Total Amount: ₹<?php echo $total; ?></h4>
 
-<div class="mt-3">
+<div class="d-flex justify-content-between mt-3">
     <a href="menu.php" class="btn btn-secondary">← Continue Shopping</a>
-    <a href="place_order.php" class="btn btn-success">Place Order ✅</a>
+    <form action="place_order.php" method="POST">
+        <button class="btn btn-success">Place Order ✅</button>
+    </form>
 </div>
 
 </div>

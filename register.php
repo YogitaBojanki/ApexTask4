@@ -1,4 +1,4 @@
-<?php include "config.php"; ?>
+<?php include "includes/db.php"; ?>
 
 <!DOCTYPE html>
 <html>
@@ -7,10 +7,13 @@
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 <style>
 body{
-    background: linear-gradient(to right, #ff7e5f, #feb47b);
+    background: linear-gradient(to right, #ead34e, #f3b25f);
 }
 .card{
     border-radius: 15px;
+    height: 320px;
+    width: 800px;
+    padding: 30px;
 }
 .error{ color:red; }
 .success{ color:green; }
@@ -29,18 +32,30 @@ if(isset($_POST['register'])){
     $email = $_POST['email'];
     $password = $_POST['password'];
 
+    // 🔐 Password validation
     if(!preg_match('/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&]).{6,}$/', $password)){
         echo "<div class='alert alert-danger'>Weak Password</div>";
     } else {
-        $hash = password_hash($password, PASSWORD_DEFAULT);
 
-        $stmt = $conn->prepare("INSERT INTO users(name,email,password) VALUES(?,?,?)");
-        $stmt->bind_param("sss",$name,$email,$hash);
+        // ✅ CHECK EMAIL FIRST
+        $check = $conn->prepare("SELECT id FROM users WHERE email=?");
+        $check->bind_param("s", $email);
+        $check->execute();
+        $check->store_result();
 
-        if($stmt->execute()){
-            echo "<div class='alert alert-success'>Registered Successfully</div>";
+        if($check->num_rows > 0){
+            echo "<div class='alert alert-warning'>Email already exists</div>";
         } else {
-            echo "<div class='alert alert-danger'>Error</div>";
+            $hash = password_hash($password, PASSWORD_DEFAULT);
+
+            $stmt = $conn->prepare("INSERT INTO users(name,email,password) VALUES(?,?,?)");
+            $stmt->bind_param("sss",$name,$email,$hash);
+
+            if($stmt->execute()){
+                echo "<div class='alert alert-success'>Registered Successfully</div>";
+            } else {
+                echo "<div class='alert alert-danger'>Error occurred</div>";
+            }
         }
     }
 }
@@ -60,8 +75,11 @@ if(isset($_POST['register'])){
 </div>
 <span id="passError" class="error"></span>
 
-<button class="btn btn-success w-100" name="register">Register</button>
-
+<button class="btn btn-primary w-100" name="register">Register</button><br>
+<p class="text-center mt-2">
+Already have an account? 
+<a href="/ApexTask4/login.php">Login</a>
+</p>
 </form>
 
 </div>

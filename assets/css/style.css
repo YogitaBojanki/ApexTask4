@@ -29,3 +29,36 @@ nav a {
     border: none;
     cursor: pointer;
 }
+.food-img{
+    width: 100%;
+    height: 200px;        /* fixed height */
+    object-fit: cover;    /* crop nicely */
+    border-radius: 10px;
+}
+
+.food-card{
+    border-radius: 12px;
+    transition: 0.3s;
+}
+
+.food-card:hover{
+    transform: scale(1.05);
+}
+.menu-title{
+    font-weight: bold;
+    font-size: 32px;
+    color: #ff5722;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+body{
+    background-color: #f8f9fa;
+}
+
+.card{
+    border: none;
+}
+
+.card:hover{
+    box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+}

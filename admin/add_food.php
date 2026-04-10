@@ -1,6 +1,7 @@
 <?php
 include("../includes/db.php");
 include("login_check.php");
+session_start();
 
 if (isset($_POST['add'])) {
     $name = $_POST['name'];
