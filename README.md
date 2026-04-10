@@ -62,6 +62,8 @@ ApexTask4/
 │
 ├── includes/
 │   └── db.php
+│   └── footer.php
+│   └── header.php
 │
 ├── user/
 │   ├── menu.php
@@ -72,7 +74,7 @@ ApexTask4/
 │   ├── place_order.php
 │
 ├── uploads/
-├── assets/css/
+├── assets/css/style.css
 
 ---
 

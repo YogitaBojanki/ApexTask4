@@ -48,7 +48,7 @@ if(!isset($_SESSION['user_id'])) {
 </div>
 <div class="container mt-4">
 
-<h1 class="menu-title mb-4">🍔 Food Menu</h1>
+<h1 class="menu-title mb-4">Food Menu</h1>
 <div class="row">
 
 <?php

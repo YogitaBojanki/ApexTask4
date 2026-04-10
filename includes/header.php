@@ -8,7 +8,7 @@
 <body>
 
 <nav>
-    <h2>🍔 FoodApp</h2>
+    <h2>Bite Burst🍔</h2>
     <a href="/ApexTask4/index.php">Home</a>
     <a href="/ApexTask4/user/menu.php">Menu</a>
     <a href="/ApexTask4/login.php">Login</a>
